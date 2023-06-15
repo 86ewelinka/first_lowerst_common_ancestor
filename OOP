@@ -1,0 +1,31 @@
+class Solution:
+    def run(self, index1, index2):
+        # Calculate the depth of each node
+        depth1 = self.calculate_depth(index1)
+        depth2 = self.calculate_depth(index2)
+
+        # Move the deeper node up to the same depth as the other node
+        while depth1 > depth2:
+            index1 = self.get_parent(index1)
+            depth1 -= 1
+        while depth2 > depth1:
+            index2 = self.get_parent(index2)
+            depth2 -= 1
+
+        # Move both nodes up until they have the same parent (common ancestor)
+        while index1 != index2:
+            index1 = self.get_parent(index1)
+            index2 = self.get_parent(index2)
+
+        return index1
+
+    def calculate_depth(self, index):
+        depth = 0
+        while index > 1:
+            index = self.get_parent(index)
+            depth += 1
+        return depth
+
+    def get_parent(self, index):
+        # Calculate the parent index based on the current node's index
+        return index // 2
